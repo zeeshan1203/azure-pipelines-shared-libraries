@@ -1,0 +1,15 @@
+stages:
+  - stage: "DownloadDependencies"
+    displayName: "Download NodeJS Dependencies"  # friendly name to display in the UI
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+    jobs:
+      - job: "DownloadDependencies"
+        displayName: "Download NodeJS Dependencies"  # friendly name to display in the UI
+        steps:
+          - script: |
+              npm install
+            displayName: Download NodeJS Dependencies
+          - script: |
+              ls -ltr
+              cp -r node_modules server.js $(Build.BinariesDirectory)/.
+            displayName: Prepare Artifacts

@@ -1,0 +1,15 @@
+stages:
+  - stage: "MakeAMI"
+    displayName: "Make AMI"  # friendly name to display in the UI
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+    jobs:
+      - job: "MakeAMI"
+        displayName: "Make AMI"  # friendly name to display in the UI
+        steps:
+          - script: |
+              cd ami
+              terraform init
+              terraform apply -auto-approve -var APP_VERSION=$(Build.SourceBranchName)
+              terraform state rm module.ami.aws_ami_from_instance.ami
+              terraform destroy -auto-approve -var APP_VERSION=$(Build.SourceBranchName)
+            displayName: Make AMI

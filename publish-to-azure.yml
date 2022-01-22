@@ -1,0 +1,21 @@
+stages:
+  - stage: "PublishArtifacts"
+    displayName: "Publish Artifacts"  # friendly name to display in the UI
+    condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+    jobs:
+      - job: "PublishArtifacts"
+        displayName: "Publish Artifacts"  # friendly name to display in the UI
+        steps:
+  #        - script: |
+  #            cd $(Build.BinariesDirectory)
+  #            az artifacts universal publish --organization https://dev.azure.com/zeeshanshaik1203/ --project="Roboshop" --scope project --feed roboshop-b57 --name ${COMPONENT} --version $(Build.SourceBranchName) --description "${COMPONENT}-$(Build.SourceBranchName)" --path .
+  #          displayName: Publish Artifacts
+        - task: UniversalPackages@0
+          inputs:
+            command: 'publish'
+            publishDirectory: '$(Build.BinariesDirectory)'
+            feedsToUsePublish: 'internal'
+            vstsFeedPublish: 'edfd1e0a-eb7c-438d-9305-6cb7feeaacbb/6ae73496-988d-41bb-93d3-1c40b02b4ad5'
+            vstsFeedPackagePublish: '$(COMPONENT)'
+            versionOption: 'custom'
+            versionPublish: '$(Build.SourceBranchName)'
