@@ -1,0 +1,14 @@
+stages:
+- stage: "CompileCode"
+  displayName: "Compile Code"
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  jobs:
+    - job: "CompileCode"
+      displayName: "Compile Code"
+      steps:
+        - script: |
+            mvn clean package
+          displayName: Download Maven Dependencies
+        - script: |
+            cp -r target/shipping-1.0.jar $(Build.BinariesDirectory)/shipping.jar
+          displayName: Prepare Artifacts
