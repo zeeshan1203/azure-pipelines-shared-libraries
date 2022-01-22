@@ -1,0 +1,11 @@
+stages:
+- stage: "PrepareArtifacts"
+  displayName: "Prepare Artifacts"
+  condition: and(succeeded(), startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  jobs:
+    - job: "PrepareArtifacts"
+      displayName: "Prepare Artifacts"
+      steps:
+        - script: |
+            cp -r *.ini *.py requirements.txt $(Build.BinariesDirectory)/.
+          displayName: Prepare Artifacts
