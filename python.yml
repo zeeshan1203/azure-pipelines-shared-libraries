@@ -9,3 +9,4 @@ stages:
         - script: |
             cp -r *.ini *.py requirements.txt $(Build.BinariesDirectory)/.
           displayName: Prepare Artifacts
+
