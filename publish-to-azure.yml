@@ -18,4 +18,4 @@ stages:
             vstsFeedPublish: 'edfd1e0a-eb7c-438d-9305-6cb7feeaacbb/6ae73496-988d-41bb-93d3-1c40b02b4ad5'
             vstsFeedPackagePublish: '$(COMPONENT)'
             versionOption: 'custom'
-            versionPublish: '$(Build.SourceBranchName)'
+            versionPublish: '$(RELEASE_ARTIFACTS_BUILD_SOURCEBRANCHNAME)'
